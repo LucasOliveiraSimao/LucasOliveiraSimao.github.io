@@ -31,6 +31,11 @@ function deleteChar() {
     updateDisplay();
 }
 
+function updateDisplay() {
+    const display = document.getElementById('display');
+    display.textContent = displayValue;
+}
+
 function calculateResult() {
     const inputValue = parseFloat(displayValue);
 
@@ -38,25 +43,26 @@ function calculateResult() {
         // Calcula o resultado conforme especificado
         const result = 15 - (inputValue * 2);
 
-        // Exibe o resultado na tela
-        displayValue = result.toString();
+        if (inputValue >= 8.0 && inputValue <= 10.0) {
+            alert('Você passou na disciplina.');
+            console.log(inputValue)
+        }
+        else if (inputValue >= 7.5 && inputValue <= 7.99) {
+            alert('Apenas os alunos que obtiverem média igual ou superior a 8.00 estarão dispensados da Prova Final. Alunos com notas abaixo de 8.00 não terão essa dispensa e, caso optem por não realizar a Prova Final, receberão nota zero.');
+        }
+        else if (inputValue >= 2.5 && inputValue <= 7.49) {
+            alert('A nota necessária para a aprovação na Prova Final é: ' + result.toString());
+        }
+        else {
+            alert('Lamentavelmente, as chances de você ser aprovado são inexistentes.');
+        }
+        displayValue = '';
         updateDisplay();
     } else {
         // Exibe uma mensagem de erro se o valor estiver fora do intervalo
         displayValue = 'Erro';
         updateDisplay();
     }
-
-    /*
-    try {
-        const result = eval(displayValue);
-        displayValue = result.toString();
-        updateDisplay();
-    } catch (error) {
-        displayValue = 'Error';
-        updateDisplay();
-    }
-    */
 }
 
 function checkDevice() {
@@ -64,7 +70,6 @@ function checkDevice() {
 
     if (/android/i.test(userAgent)) {
         // Dispositivo é Android
-        alert('Esta página só está disponível para iPhone.');
         // Opcionalmente, você pode redirecionar o usuário para uma página específica ou ocultar o conteúdo da página
         document.body.innerHTML = '<h1>Esta página só está disponível para iPhone.</h1>';
     } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
@@ -72,16 +77,9 @@ function checkDevice() {
         // A página está disponível, não precisa fazer nada
     } else {
         // Outros dispositivos
-        alert('Esta página só está disponível para iPhone.');
         document.body.innerHTML = '<h1>Esta página só está disponível para iPhone.</h1>';
     }
 }
 
 // Chame a função ao carregar a página
 window.onload = checkDevice;
-
-
-function updateDisplay() {
-    const display = document.getElementById('display');
-    display.textContent = displayValue;
-}
